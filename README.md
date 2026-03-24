@@ -5,8 +5,8 @@
 ---
 
 ## 👥 Η Ομάδα μας
-*Παναγιώτης Παναγιώτου
-*Gabriel
+Παναγιώτης Παναγιώτου
+Gabriel
 ---
 
 ## 📖 Τεκμηρίωση Συστήματος (Documentation)
@@ -20,7 +20,7 @@
 ---
 
  How to Run the Project Locally
-Clone the repository
-Move the project folder into: xampp/htdocs/
-Start Apache and MySQL from XAMPP
-Open your browser and visit:
+1.Clone the repository
+2.Move the project folder into: xampp/htdocs/
+3.Start Apache and MySQL from XAMPP
+4.Open your browser and visit:
