@@ -26,24 +26,23 @@ with st.sidebar:
     )
 
 # 4. Υπολογισμός Πιθανότητας και Χρώματος (Δυναμικά)
-# Εδώ υπολογίζουμε την πιθανότητα (στο μέλλον θα έρχεται από το AI μοντέλο)
-prob = int(max(10, 90 - (prediction_time * 0.8)))
+prob = int(max(5, 95 - (prediction_time * 1.5)))
 
-# Λογική Χρωμάτων βάσει των ορίων σου:
+# Λογική Χρωμάτων βάσει των ορίων :
 # > 60% -> Κόκκινο | 35-60% -> Πορτοκαλί | < 35% -> Πράσινο
 if prob > 60:
-    current_color = [255, 0, 0, 160]    # ΚΟΚΚΙΝΟ (Δύσκολο Parking)
+    current_color = [255, 0, 0, 160]    # ΚΟΚΚΙΝΟ 
 elif prob >= 35:
-    current_color = [255, 165, 0, 160]  # ΠΟΡΤΟΚΑΛΙ (Μέτρια Δυσκολία)
+    current_color = [255, 165, 0, 160]  # ΠΟΡΤΟΚΑΛΙ 
 else:
-    current_color = [0, 255, 0, 160]    # ΠΡΑΣΙΝΟ (Εύκολο Parking)
+    current_color = [0, 255, 0, 160]    # ΠΡΑΣΙΝΟ 
 
-# Δημιουργία DataFrame μόνο για την επιλεγμένη περιοχή για να αλλάζει ο κύκλος της
+# Δημιουργία DataFrame μόνο για την επιλεγμένη περιοχή 
 parking_data = pd.DataFrame({
     'lat': [view_centers[selected_zone]["lat"]],
     'lon': [view_centers[selected_zone]["lon"]],
     'name': [selected_zone],
-    'color': [current_color], # Το χρώμα αλλάζει δυναμικά εδώ
+    'color': [current_color], 
     'radius': [50]
 })
 
@@ -64,14 +63,14 @@ with col1:
     )
     
     st.pydeck_chart(pdk.Deck(
-        map_style=None, # Χρήση default style για αποφυγή προβλημάτων Mapbox
+        map_style=None, 
         initial_view_state=new_view,
         layers=[
             pdk.Layer(
                 'ScatterplotLayer',
                 parking_data,
                 get_position='[lon, lat]',
-                get_fill_color='color', # Διαβάζει το δυναμικό χρώμα από το dataframe
+                get_fill_color='color', 
                 get_radius='radius',
                 pickable=True,
             ),
@@ -82,7 +81,7 @@ with col2:
     st.subheader("📊 Analytics")
     st.metric("Πιθανότητα Εύρεσης", f"{prob}%")
     
-    # Μικρή επεξήγηση χρώματος για το Report
+    
     if prob > 60:
         st.error("Κατάσταση: Πολύ Αυξημένη Κίνηση")
     elif prob >= 35:
