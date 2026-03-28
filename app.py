@@ -51,7 +51,7 @@ with col1:
     )
     
     st.pydeck_chart(pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
+       map_style=None,
         initial_view_state=new_view,
         layers=[
             pdk.Layer(
