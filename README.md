@@ -19,9 +19,22 @@
 
 ---
 
- How to Run the Project Locally
- 
-* 1.Clone the repository
-* 2.Move the project folder into: xampp/htdocs/
-* 3.Start Apache and MySQL from XAMPP
-* 4.Open your browser and visit:
+## 📦 Οδηγίες Εγκατάστασης (Local Run)
+
+Για να τρέξετε το project τοπικά στον υπολογιστή σας, ακολουθήστε τα παρακάτω βήματα:
+
+ **Κλωνοποίηση του Repository:**
+   git clone [https://github.com/panayiotis03/Smart-Parking-Prediction-System.git](https://github.com/panayiotis03/Smart-Parking-Prediction-System.git)
+   cd Smart-Parking-Prediction-System
+   
+**Εγκατάσταση Βιβλιοθηκών:**
+Εγκαταστήστε όλες τις απαραίτητες εξαρτήσεις που βρίσκονται στο αρχείο requirements.txt:
+
+pip install -r requirements.txt
+
+**Εκτέλεση της Εφαρμογής:**
+**Τρέξτε το Dashboard μέσω του Streamlit:**
+streamlit run app.py
+
+**Πρόσβαση:**
+Ανοίξτε τον browser σας στη διεύθυνση: http://localhost:8501
