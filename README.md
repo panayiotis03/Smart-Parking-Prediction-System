@@ -40,7 +40,7 @@ python smartcity.py
 
 **Εκτέλεση της Dashboard:**
 Σε ένα νέο τερματικό, τρέξτε την εφαρμογή UI:
-streamlit run uiSmartCity.py
+python -m streamlit run uiSmartCity.py
 
 **Εκτέλεση του Dashboard:**
 Ανοίξτε τον browser σας στη διεύθυνση: http://localhost:8501
