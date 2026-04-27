@@ -44,3 +44,6 @@ python -m streamlit run uiSmartCity.py
 
 **Εκτέλεση του Dashboard:**
 Ανοίξτε τον browser σας στη διεύθυνση: http://localhost:8501
+
+**Εκτέλεση Πίνακα Ελέγχου σε οποιαδήποτε Local συσκευή:**
+Ανοίξτε τον browser σας στη διεύθυνση "Network URL" που εμφανίζεται στο Command Prompt (CMD)
