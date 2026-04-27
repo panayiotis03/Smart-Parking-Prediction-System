@@ -122,8 +122,8 @@ def collect_data():
             conn = sqlite3.connect('london_smart_parking.db')
             cursor = conn.cursor()
 
-            # Παίρνουμε τους πρώτους 30 σταθμούς για να έχουμε πολλές περιοχές
-            for park in parking_list[:30]:
+            # Adds parking data into the file
+            for park in parking_list:
                 name = park['commonName']
                 lat, lon = park['lat'], park['lon']
                 speed = get_traffic_speed(lat, lon)
