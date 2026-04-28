@@ -63,7 +63,7 @@ def get_parking_data():
 
         free_spaces = None
 
-        # Προσπάθεια 1: TfL Occupancy API v2
+        # Προσπάθεια 1: TfL Occupancy API 
         try:
             occ_url  = f"https://api.tfl.gov.uk/Occupancy/CarPark/{park_id}?app_key={TFL_KEY}"
             occ_resp = requests.get(occ_url, timeout=8)
@@ -81,7 +81,7 @@ def get_parking_data():
         # Pattern: πρωί αιχμής (8-10) γεμάτο, βράδυ άδειο
         if free_spaces is None:
             import math
-            # Occupancy curve: peak στις 9-10 πρωί και 17-18 απόγευμα
+            # Occupancy: peak στις 9-10 πρωί και 5-6 το απόγευμα
             morning_peak = math.exp(-0.5 * ((now_hour - 9) / 2.0) ** 2)
             evening_peak = math.exp(-0.5 * ((now_hour - 17) / 2.0) ** 2)
             occupancy_rate = 0.3 + 0.6 * max(morning_peak, evening_peak)
@@ -206,7 +206,7 @@ def collect_data():
             time.sleep(sleep_time)
 
         except Exception as e:
-            print(f"❌ Κρίσιμο σφάλμα: {e}")
+            print(f"❌ Σφάλμα: {e}")
             time.sleep(30)
 
 if __name__ == "__main__":
