@@ -16,17 +16,16 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Ανανέωση κάθε 20 δευτερόλεπτα για live αίσθηση
+# Ανανέωση κάθε 20 δευτερόλεπτα για να είναι live 
 st_autorefresh(interval=20 * 1000, key="datarefresh")
 
-# Auto-detect mobile μέσω JS + query params (αξιόπιστη μέθοδος για Streamlit)
+# Auto-detect mobile μέσω JS + query params 
 import streamlit.components.v1 as components
 
-# Auto-detect mobile: διαβάζουμε το query param που γράφει ο browser
+# Auto-detect mobile
 import streamlit.components.v1 as components
 
-# Το JS τρέχει στον browser, γράφει ?mobile=1 ή ?mobile=0 στο URL
-# χρησιμοποιώντας το Streamlit's setQueryParam μέσω postMessage
+# Το JS τρέχει στον browser
 components.html("""
 <script>
 (function() {
@@ -54,7 +53,6 @@ def get_thresholds(df_spaces):
     - Πράσινο: top 33% (πάνω από το 67ο percentile)
     - Πορτοκαλί: μεσαίο 33% (34ο–66ο percentile)
     - Κόκκινο: κάτω 33% (κάτω από το 34ο percentile)
-    Εγγυάται ότι πάντα υπάρχουν και τα 3 χρώματα.
     """
     p67 = int(df_spaces.quantile(0.67))
     p33 = int(df_spaces.quantile(0.33))
@@ -68,9 +66,9 @@ def get_status(free_spaces_abs, green_thr, orange_thr):
     if free_spaces_abs >= green_thr:
         return "#28a745", "🟢 Αρκετή διαθεσιμότητα", "success"
     elif free_spaces_abs >= orange_thr:
-        return "#fd7e14", "🟠 Μέτρια Επιλογή", "warning"
+        return "#fd7e14", "🟠 Μέτρια διαθεσιμότητα", "warning"
     else:
-        return "#dc3545", "🔴 Σχεδόν καμία διαθεσιμότητα", "error"
+        return "#dc3545", "🔴 Ελάχιστη διαθεσιμότητα", "error"
 
 def render_status_box(status_type, label):
     if status_type == "success":
@@ -101,7 +99,7 @@ def render_analytics(df, current_horizon):
 
     row = selected_data.iloc[0]
 
-    # --- Live τιμές (από APIs τώρα) ---
+    # --- Live τιμές (από APIs ) ---
     live_spaces  = row['free_spaces']
     live_speed   = row['traffic_speed']
     live_temp    = row['temperature']
@@ -113,20 +111,20 @@ def render_analytics(df, current_horizon):
     pred_temp    = row.get('pred_temperature', live_temp)
     pred_weather = row.get('pred_weather_desc', live_weather)
 
-    # Πιθανότητα εύρεσης — άμεσα συνδεδεμένη με τη σήμανση
+    # Πιθανότητα εύρεσης 
     # 🟢 Αρκετή  → 65–95%
     # 🟠 Μέτρια  → 30–64%
     # 🔴 Σχεδόν καμία → 0–29%
     def spaces_to_reliability(spaces, speed, g_thr, o_thr):
         speed_bonus = min((speed / 60.0) * 10, 10)  # max +10% από κίνηση
         if spaces >= g_thr:
-            # Πράσινο: 65–95, ανάλογα πόσο πάνω από το όριο
+            # Πράσινο: 65–95%
             base = 65 + min(30, int((spaces - g_thr) / max(g_thr, 1) * 30))
         elif spaces >= o_thr:
-            # Πορτοκαλί: 30–64
+            # Πορτοκαλί: 30–64%
             base = 30 + int((spaces - o_thr) / max(g_thr - o_thr, 1) * 34)
         else:
-            # Κόκκινο: 0–29
+            # Κόκκινο: 0–29%
             base = int((spaces / max(o_thr, 1)) * 29)
         return max(0, min(100, int(base + speed_bonus)))
 
@@ -162,7 +160,7 @@ def render_analytics(df, current_horizon):
         st.markdown("<br>", unsafe_allow_html=True)
         render_status_box(status_type, status_label)
 
-    # Γράφημα τάσης: ομαλή προβολή βάσει trend (χωρίς DB calls per step)
+    # Γράφημα τάσης
     if current_horizon > 0:
         st.divider()
         st.write(f"📈 **Τάση Διαθεσιμότητας & Κίνησης (επόμενα {current_horizon} λεπτά)**")
@@ -289,7 +287,7 @@ try:
         df_live  = pd.read_sql_query(query_live,  conn)
         df_trend = pd.read_sql_query(query_trend, conn)
 
-    # ── Άδεια βάση: ο collector δεν έχει γράψει δεδομένα ακόμα ──
+    # ── Ο collector (smartcity) δεν έχει γράψει δεδομένα ακόμα ──
     if df_live.empty:
         st.info("⏳ Αναμονή δεδομένων από τον collector...")
         st.markdown("""
@@ -304,7 +302,7 @@ try:
     df_live['free_spaces']   = df_live['free_spaces'].fillna(0).astype(int)
     df_live['traffic_speed'] = df_live['traffic_speed'].fillna(0).astype(int)
 
-    # Trend: αλλαγή σε 50 λεπτά → κανονικοποίηση σε ανά λεπτό
+    # Trend: αλλαγή σε 50 λεπτά 
     # Αν δεν υπάρχουν αρκετά δεδομένα (< 20 rows), trend = 0
     df_trend['has_history'] = df_trend['total_rows'] >= 20
     df_trend['fs_delta_per_min'] = (
@@ -323,7 +321,7 @@ try:
     df['ts_delta_per_min'] = df['ts_delta_per_min'].fillna(0)
 
     # Πρόβλεψη = live + (trend_per_min × horizon_λεπτά)
-    # Hard clamp: max ±40% από live τιμή (ρεαλισμός)
+    # max ±40% από live τιμή 
     if current_horizon > 0:
         raw_pred_fs = df['free_spaces'] + df['fs_delta_per_min'] * current_horizon
         max_change_fs = df['free_spaces'] * 0.40
@@ -347,9 +345,7 @@ try:
 
     # ============================================================
     # ΦΙΛΤΡΑΡΙΣΜΑ ΠΕΡΙΟΧΗΣ — βάσει απόστασης από κέντρο Λονδίνου
-    # Κέντρο Λονδίνου (Charing Cross): 51.5074, -0.1278
-    # Υπολογίζουμε απόσταση Euclidean και χωρίζουμε σε ζώνες
-    # ============================================================
+    
     LONDON_LAT, LONDON_LON = 51.5074, -0.1278
 
     df['dist_km'] = (
@@ -357,7 +353,7 @@ try:
         ((df['lon'] - LONDON_LON) * 111.0 * 0.64) ** 2
     ) ** 0.5
 
-    # Δυναμικά όρια βάσει των πραγματικών δεδομένων (percentiles)
+    # Δυναμικά όρια βάσει των πραγματικών δεδομένων 
     p33 = df['dist_km'].quantile(0.40)  # κοντύτερα 40% = Κέντρο
     p66 = df['dist_km'].quantile(0.75)  # 40-75% = Ημικέντρο, >75% = Περίχωρα
 
@@ -386,7 +382,6 @@ try:
 
         # ============================================================
         # MOBILE LAYOUT — Tabs: Χάρτης | Analytics
-        # ============================================================
         if is_mobile:
             st.markdown(f"### 📍 {zone_filter}")
             tab_map, tab_analytics = st.tabs(["🗺️ Χάρτης", "📊 Analytics"])
@@ -413,7 +408,6 @@ try:
 
         # ============================================================
         # DESKTOP LAYOUT
-        # ============================================================
         else:
             col1, col2 = st.columns([2, 1])
             with col1:
