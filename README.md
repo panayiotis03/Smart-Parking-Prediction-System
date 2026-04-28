@@ -32,6 +32,9 @@
 
 pip install -r requirements.txt
 
+**Εγκατάσταση Αρχείων python:**
+Αφού κατεβάσετε και τα 2 αρχεία python,όπου το ένα ειναι το smarticity.py που είναι ο collector των δεδομένων και το δεύτερο είναι το uiSmartCity.py που είναι το UI της εφαρμογής.Επιπλέον οταν τα τρέξετε local στον υπολογιστή σας χρειάζεται να βρίσκονται και τα δύο στο ίδιο path δηλαδη στο ίδιο φάκελο.
+
 **Εκτέλεση της Εφαρμογής:**
 
 **Εκτέλεση του Data Collector**
@@ -43,7 +46,7 @@ python smartcity.py
 python -m streamlit run uiSmartCity.py
 
 **Εκτέλεση του Dashboard:**
-Ανοίξτε τον browser σας στη διεύθυνση: http://localhost:8501
+Θα ανόιξει αυτόματα ο browser ή ανοίξτε τον browser σας στη διεύθυνση: http://localhost:8501
 
 **Εκτέλεση Πίνακα Ελέγχου σε οποιαδήποτε Local συσκευή:**
 Ανοίξτε τον browser σας στη διεύθυνση "Network URL" που εμφανίζεται στο Command Prompt (CMD)
